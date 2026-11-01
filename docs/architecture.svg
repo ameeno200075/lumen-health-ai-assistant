@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Lumen Health Clinic architecture</title>
+  <desc id="desc">Patient and administrator interfaces connect through Inertia to Laravel. The Laravel appointment assistant uses Gemini and validated Laravel tools to access application services and the database. The scheduler sends appointment reminder emails.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1120"/>
+      <stop offset="1" stop-color="#111c33"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d97706"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0 0 L9 3 L0 6 Z" fill="#f59e0b"/>
+    </marker>
+    <style>
+      .heading{font:700 28px Inter,Arial,sans-serif;fill:#f8fafc}
+      .sub{font:14px Inter,Arial,sans-serif;fill:#cbd5e1}
+      .label{font:700 17px Inter,Arial,sans-serif;fill:#f8fafc}
+      .small{font:13px Inter,Arial,sans-serif;fill:#cbd5e1}
+      .tiny{font:12px Inter,Arial,sans-serif;fill:#94a3b8}
+      .panel{fill:#17243b;stroke:#33445f;stroke-width:1.5}
+      .accent{fill:#2b2b30;stroke:#d97706;stroke-width:2}
+      .line{fill:none;stroke:#f59e0b;stroke-width:2.5;marker-end:url(#arrow)}
+      .dashed{fill:none;stroke:#94a3b8;stroke-width:2;stroke-dasharray:7 6;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1200" height="760" rx="24" fill="url(#bg)"/>
+  <text x="60" y="62" class="heading">Lumen Health Clinic</text>
+  <text x="60" y="91" class="sub">Application architecture · AI orchestration with server-side business rules</text>
+
+  <rect x="55" y="145" width="235" height="145" rx="16" class="panel"/>
+  <text x="172" y="180" text-anchor="middle" class="label">Client interfaces</text>
+  <text x="172" y="211" text-anchor="middle" class="small">Patient dashboard</text>
+  <text x="172" y="236" text-anchor="middle" class="small">AI assistant chat</text>
+  <text x="172" y="261" text-anchor="middle" class="small">Admin dashboard</text>
+
+  <rect x="365" y="145" width="220" height="145" rx="16" class="panel"/>
+  <text x="475" y="180" text-anchor="middle" class="label">Laravel application</text>
+  <text x="475" y="211" text-anchor="middle" class="small">Authentication</text>
+  <text x="475" y="236" text-anchor="middle" class="small">Controllers · Inertia</text>
+  <text x="475" y="261" text-anchor="middle" class="small">Authorization</text>
+
+  <rect x="660" y="120" width="245" height="195" rx="16" class="accent"/>
+  <text x="782" y="158" text-anchor="middle" class="label">AppointmentAssistant</text>
+  <text x="782" y="185" text-anchor="middle" class="small">Laravel AI SDK</text>
+  <text x="782" y="210" text-anchor="middle" class="small">Conversation memory</text>
+  <text x="782" y="235" text-anchor="middle" class="small">Tool selection</text>
+  <text x="782" y="280" text-anchor="middle" class="tiny">No direct database access</text>
+
+  <rect x="990" y="145" width="155" height="145" rx="16" class="panel"/>
+  <text x="1067" y="180" text-anchor="middle" class="label">Gemini</text>
+  <text x="1067" y="211" text-anchor="middle" class="small">Language</text>
+  <text x="1067" y="236" text-anchor="middle" class="small">understanding</text>
+  <text x="1067" y="261" text-anchor="middle" class="small">Responses</text>
+
+  <path d="M290 218 H365" class="line"/>
+  <path d="M585 218 H660" class="line"/>
+  <path d="M905 218 H990" class="line"/>
+
+  <rect x="365" y="390" width="540" height="190" rx="16" class="panel"/>
+  <text x="635" y="428" text-anchor="middle" class="label">Validated Laravel tools</text>
+  <text x="635" y="461" text-anchor="middle" class="small">List doctors · List patient appointments</text>
+  <text x="635" y="488" text-anchor="middle" class="small">Check availability · Book appointment</text>
+  <text x="635" y="515" text-anchor="middle" class="small">Cancel · Reschedule · Set reminder preference</text>
+  <text x="635" y="550" text-anchor="middle" class="tiny">Validation · Ownership checks · Transactions · Business rules</text>
+
+  <path d="M782 315 V350 H635 V390" class="line"/>
+  <path d="M475 290 V350 H365 V475" class="dashed"/>
+
+  <rect x="55" y="625" width="300" height="90" rx="16" class="panel"/>
+  <text x="205" y="660" text-anchor="middle" class="label">Scheduler</text>
+  <text x="205" y="687" text-anchor="middle" class="small">Hourly reminder command</text>
+
+  <rect x="450" y="625" width="300" height="90" rx="16" class="panel"/>
+  <text x="600" y="660" text-anchor="middle" class="label">Application database</text>
+  <text x="600" y="687" text-anchor="middle" class="small">Users · Doctors · Availability · Appointments</text>
+
+  <rect x="845" y="625" width="300" height="90" rx="16" class="panel"/>
+  <text x="995" y="660" text-anchor="middle" class="label">Mail transport</text>
+  <text x="995" y="687" text-anchor="middle" class="small">Appointment reminder emails</text>
+
+  <path d="M505 580 V600 H600 V625" class="line"/>
+  <path d="M205 625 V600 H505 V580" class="dashed"/>
+  <path d="M750 670 H845" class="line"/>
+  <text x="600" y="745" text-anchor="middle" class="tiny">AI proposes actions; Laravel validates and executes them.</text>
+</svg>
