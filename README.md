@@ -1,52 +1,147 @@
 # Lumen Health Clinic
 
-Lumen Health Clinic is an AI-powered virtual appointment receptionist built with Laravel 13, React, TypeScript, Inertia.js, Tailwind CSS, and the Laravel AI SDK.
+<p align="center">
+  <strong>An AI-powered appointment receptionist for a modern clinic.</strong>
+</p>
 
-The application helps patients interact with a clinic assistant to find doctors, check availability, manage appointments, and configure appointment reminders.
+Lumen Health Clinic combines a conversational AI assistant with a conventional Laravel application layer. Patients can discover clinic doctors, check real availability, book and manage appointments, and opt in to email reminders. Clinic administrators can manage doctors and their weekly availability.
+
+The AI model does not access the database directly. It uses explicit Laravel tools, where application code validates requests and enforces authorization and booking rules.
+
+## Overview
+
+- **Backend:** Laravel 13, PHP 8.3+
+- **Frontend:** React 19, TypeScript, Inertia.js, Tailwind CSS
+- **AI orchestration:** Laravel AI SDK with Google Gemini
+- **Authentication:** Laravel Fortify
+- **Database:** SQLite by default in the example environment; MySQL can also be configured
+- **Clinic timezone:** `Asia/Damascus`; appointment instants are stored in UTC
 
 ## Features
 
-- Authenticated patient dashboard and appointment history.
-- AI-assisted doctor search and availability checks.
-- Appointment booking, cancellation, and rescheduling.
-- Appointment reminder preferences and scheduled reminder emails.
-- Server-side appointment ownership and administrator authorization.
-- Doctor and weekly availability management for administrators.
-- UTC-based appointment storage with an explicit `Asia/Damascus` clinic timezone.
-- Conversation history scoped to the authenticated user.
-- Duplicate-send protection for appointment reminder emails.
+### Patient experience
 
-## Technology Stack
+- Authenticated AI receptionist with persistent conversation history.
+- Doctor discovery based on clinic records.
+- Availability checks against each doctor's configured weekly schedule.
+- Appointment booking after the patient confirms the selected doctor and time.
+- Appointment history, cancellation, and rescheduling.
+- Optional email reminders for upcoming appointments.
 
-- **Backend:** PHP 8.3+ and Laravel 13
-- **Frontend:** React 19, TypeScript, Inertia.js, and Tailwind CSS
-- **Database:** MySQL (production); SQLite supported for local tests
-- **Authentication:** Laravel Fortify
-- **AI Integration:** Laravel AI SDK with Google Gemini
+### Clinic administration
 
-## Installation
+- Admin-only dashboard.
+- Doctor creation, editing, and deletion.
+- Weekly doctor availability management.
+- Server-side authorization for administrative operations.
 
-### Prerequisites
+### Reliability and safety
 
-Make sure you have the following installed:
+- The model cannot query or modify the database directly.
+- Laravel tools validate inputs and apply application-level business rules.
+- Appointment ownership is checked before patient appointment operations.
+- Booking uses database transactions and protects against conflicting bookings.
+- Reminder processing uses cache locks and records successful sends to reduce duplicate emails.
+- Appointment timestamps are stored in UTC and displayed in the clinic timezone.
+
+## AI assistant architecture
+
+The assistant is implemented in `app/Ai/Agents/AppointmentAssistant.php`. It uses the Laravel AI SDK's conversational capabilities and registers seven application tools.
+
+| Tool | Responsibility |
+| --- | --- |
+| `list_doctors` | Return doctors available in clinic records. |
+| `list_my_appointments` | Retrieve the authenticated patient's appointments. |
+| `check_doctor_availability` | Check available slots for a doctor and date. |
+| `book_appointment` | Create a booking after confirmation and server-side validation. |
+| `cancel_appointment` | Cancel an appointment belonging to the patient. |
+| `reschedule_appointment` | Change an eligible appointment after validating the new slot. |
+| `set_appointment_reminder` | Store the patient's reminder preference. |
+
+### Request flow
+
+1. The authenticated patient sends a message through the React/Inertia interface.
+2. Laravel passes the conversation to `AppointmentAssistant`.
+3. Gemini interprets the request and may request one of the registered tools.
+4. Laravel executes the selected tool using application models and validation.
+5. The tool result is returned to the assistant, which prepares a user-facing response.
+6. The application persists the conversation under the authenticated user.
+
+See [the architecture diagram](docs/architecture.svg).
+
+## Appointment lifecycle
+
+- **Discovery:** the assistant retrieves real doctors; it must not invent doctors or specialties.
+- **Availability:** candidate slots come from the selected doctor's configured schedule and booking rules.
+- **Confirmation:** the assistant repeats the selected doctor and time and waits for the patient's confirmation.
+- **Booking:** the Laravel booking tool validates the request and persists the appointment.
+- **Management:** the assistant looks up the patient's own appointments before cancellation or rescheduling and asks for confirmation before mutations.
+- **Reminder:** patients may opt in to an email reminder approximately 24 hours before the appointment.
+
+## Reminder scheduling
+
+The command `app:send-appointment-reminder` is registered hourly in `routes/console.php`.
+
+Run the scheduler locally:
+
+```bash
+php artisan schedule:work
+```
+
+Run the reminder command manually:
+
+```bash
+php artisan app:send-appointment-reminder
+```
+
+The command checks opted-in upcoming appointments, sends the reminder email, and records the send time. A cache lock helps prevent concurrent workers from sending the same reminder simultaneously.
+
+If your queue configuration uses asynchronous jobs, run a queue worker as well:
+
+```bash
+php artisan queue:work
+```
+
+## Timezone handling
+
+Set the application timezone in `.env`:
+
+```dotenv
+APP_TIMEZONE=Asia/Damascus
+```
+
+Appointment instants are persisted in UTC. The application interprets patient-facing appointment times in the clinic timezone and converts them at the persistence and presentation boundaries. Avoid manually adding or subtracting timezone offsets.
+
+## Getting started
+
+### Requirements
 
 - PHP 8.3 or later
 - Composer
 - Node.js and npm
-- MySQL (or SQLite for local testing)
+- SQLite or MySQL
+- A Google Gemini API key
 
-### Setup
+### Installation
 
-Clone the repository and install the dependencies:
+Clone the repository and install dependencies:
 
 ```bash
+git clone https://github.com/ameeno200075/lumen-health-ai-assistant.git
+cd lumen-health-ai-assistant
 composer install
 npm install
 ```
 
-Create your environment file:
+Create the environment file:
 
 ```bash
+cp .env.example .env
+```
+
+On Windows Command Prompt, use:
+
+```bat
 copy .env.example .env
 ```
 
@@ -56,92 +151,40 @@ Generate the application key:
 php artisan key:generate
 ```
 
-Configure your database, mail transport, and AI provider credentials in `.env`.
+Configure your database and add your Gemini API key to `.env`:
 
-Run the database migrations:
+```dotenv
+GEMINI_API_KEY=your_gemini_api_key
+APP_TIMEZONE=Asia/Damascus
+```
+
+The example environment uses SQLite. Ensure the SQLite database file exists if your local setup does not create it automatically, then run:
 
 ```bash
 php artisan migrate
 ```
 
-Build the frontend assets:
+Build frontend assets:
 
 ```bash
 npm run build
 ```
 
-**Important:** Never commit your `.env` file, API keys, or other credentials to version control.
-
-## Timezone Configuration
-
-Set the clinic timezone in your `.env` file:
-
-```dotenv
-APP_TIMEZONE=Asia/Damascus
-```
-
-Appointment instants are stored in UTC. User-entered appointment times, availability checks, reminders, email templates, and React display formatting use the clinic timezone.
-
-This approach avoids manually adding or subtracting hours and keeps appointment handling consistent across the application.
-
-## Running Locally
-
-Start the Laravel development server:
+Start the application in one terminal:
 
 ```bash
 php artisan serve
 ```
 
-In a separate terminal, start the frontend development server:
+Start the frontend development server in another terminal:
 
 ```bash
 npm run dev
 ```
 
-## Scheduled Tasks and Queues
+> Never commit `.env`, API keys, database credentials, or other secrets.
 
-The application uses Laravel's scheduler to send appointment reminders.
-
-For local development, run the scheduler with:
-
-```bash
-php artisan schedule:work
-```
-
-The reminder command can also be executed manually:
-
-```bash
-php artisan app:send-appointment-reminder
-```
-
-The reminder command is scheduled to run hourly.
-
-If the selected queue and mail configuration uses asynchronous processing, run a queue worker:
-
-```bash
-php artisan queue:work
-```
-
-## AI Architecture
-
-The `AppointmentAssistant` coordinates conversations and exposes validated Laravel tools to the AI model.
-
-Gemini does not access the database directly. Instead, the assistant interacts with application functionality through Laravel tools that use application models, database transactions, ownership checks, and appointment availability rules.
-
-Available tools:
-
-- `list_doctors`
-- `check_doctor_availability`
-- `book_appointment`
-- `cancel_appointment`
-- `reschedule_appointment`
-- `set_appointment_reminder`
-
-Conversation ownership is checked before a conversation is continued or loaded.
-
-Tool failures return safe, user-facing messages, while technical exceptions are logged server-side where appropriate.
-
-## Testing and Quality Checks
+## Testing and quality checks
 
 Run the automated test suite:
 
@@ -149,28 +192,44 @@ Run the automated test suite:
 php artisan test --no-coverage
 ```
 
-Run the static analysis and frontend checks:
+Run the available static and frontend checks:
 
 ```bash
 vendor/bin/phpstan analyse --no-progress
 npm run types:check
+npm run check
 npm run build
 ```
 
-Appointment tests cover:
-
-- Appointment booking.
-- Rebooking after cancellation.
-- Ownership-protected cancellation.
-- Appointment rescheduling.
-- Timezone conversion.
-- Reminder eligibility.
-- Database-specific concurrency limitations.
+The test suite includes coverage for appointment workflows, authorization/ownership, timezone behavior, reminder eligibility, and database-dependent booking behavior. Exact test coverage depends on the current test files and configured database driver.
 
 ## Screenshots
 
-Production screenshots will be added here when the production UI is available.
+The repository includes a screenshot checklist in [docs/screenshots/README.md](docs/screenshots/README.md). Add genuine screenshots from the running application there; do not use mockups as evidence of implemented functionality.
+
+## Project structure
+
+```text
+app/
+  Ai/
+    Agents/       # Conversational appointment assistant
+    Tools/        # Validated application actions exposed to the AI
+  Console/        # Scheduled reminder command
+  Http/           # Controllers and request handling
+  Mail/            # Appointment reminder email
+  Models/          # Doctors, appointments, availability, users
+docs/
+  architecture.svg
+  screenshots/
+```
+
+## Security notes
+
+- Keep API keys and environment-specific credentials outside version control.
+- Keep patient and administrator operations behind authentication and authorization.
+- Treat AI-generated tool arguments as untrusted input; validate them in Laravel.
+- Do not rely on the model alone to enforce appointment ownership, availability, or confirmation.
 
 ---
 
-**Lumen Health Clinic** — AI-assisted appointment management built with Laravel.
+**Lumen Health Clinic** — conversational appointment management backed by explicit application rules.
