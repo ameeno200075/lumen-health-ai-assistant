@@ -48,15 +48,15 @@ The AI model does not access the database directly. It uses explicit Laravel too
 
 The assistant is implemented in `app/Ai/Agents/AppointmentAssistant.php`. It uses the Laravel AI SDK's conversational capabilities and registers seven application tools.
 
-| Tool | Responsibility |
-| --- | --- |
-| `list_doctors` | Return doctors available in clinic records. |
-| `list_my_appointments` | Retrieve the authenticated patient's appointments. |
-| `check_doctor_availability` | Check available slots for a doctor and date. |
-| `book_appointment` | Create a booking after confirmation and server-side validation. |
-| `cancel_appointment` | Cancel an appointment belonging to the patient. |
-| `reschedule_appointment` | Change an eligible appointment after validating the new slot. |
-| `set_appointment_reminder` | Store the patient's reminder preference. |
+| Tool                        | Responsibility                                                  |
+| --------------------------- | --------------------------------------------------------------- |
+| `list_doctors`              | Return doctors available in clinic records.                     |
+| `list_my_appointments`      | Retrieve the authenticated patient's appointments.              |
+| `check_doctor_availability` | Check available slots for a doctor and date.                    |
+| `book_appointment`          | Create a booking after confirmation and server-side validation. |
+| `cancel_appointment`        | Cancel an appointment belonging to the patient.                 |
+| `reschedule_appointment`    | Change an eligible appointment after validating the new slot.   |
+| `set_appointment_reminder`  | Store the patient's reminder preference.                        |
 
 ### Request flow
 

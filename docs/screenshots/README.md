@@ -4,15 +4,15 @@ Capture these screens from the running application after signing in with suitabl
 
 ## Recommended captures
 
-| File | What to capture | Notes |
-| --- | --- | --- |
-| `patient-dashboard.png` | Authenticated patient dashboard | Show the main navigation and summary state. |
-| `assistant-chat.png` | AI receptionist conversation | Use fictional data and avoid displaying secrets. |
-| `doctor-search.png` | Doctor discovery results | Show real seeded clinic records. |
-| `availability.png` | Availability for a selected doctor and date | Ensure the date and slots are demo data. |
-| `booking-confirmation.png` | Successful appointment confirmation | Use a fictional patient identity. |
-| `admin-dashboard.png` | Administrator dashboard | Capture with an admin demo account. |
-| `doctor-management.png` | Doctor and weekly availability management | Hide any private operational data. |
+| File                       | What to capture                             | Notes                                            |
+| -------------------------- | ------------------------------------------- | ------------------------------------------------ |
+| `patient-dashboard.png`    | Authenticated patient dashboard             | Show the main navigation and summary state.      |
+| `assistant-chat.png`       | AI receptionist conversation                | Use fictional data and avoid displaying secrets. |
+| `doctor-search.png`        | Doctor discovery results                    | Show real seeded clinic records.                 |
+| `availability.png`         | Availability for a selected doctor and date | Ensure the date and slots are demo data.         |
+| `booking-confirmation.png` | Successful appointment confirmation         | Use a fictional patient identity.                |
+| `admin-dashboard.png`      | Administrator dashboard                     | Capture with an admin demo account.              |
+| `doctor-management.png`    | Doctor and weekly availability management   | Hide any private operational data.               |
 
 ## Capture guidelines
 
