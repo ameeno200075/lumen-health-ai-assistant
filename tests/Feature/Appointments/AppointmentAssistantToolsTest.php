@@ -53,10 +53,10 @@ class AppointmentAssistantToolsTest extends TestCase
 
         $this->assertStringContainsString((string) $first->id, $result);
         $this->assertStringContainsString((string) $second->id, $result);
-$this->assertStringNotContainsString(
-    "Internal appointment reference: {$other->id} |",
-    $result
-);
+        $this->assertStringNotContainsString(
+            "Internal appointment reference: {$other->id} |",
+            $result
+        );
     }
 
     public function test_cancellation_requires_confirmation_and_then_validates_ownership(): void
