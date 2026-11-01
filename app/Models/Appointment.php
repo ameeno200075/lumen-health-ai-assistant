@@ -2,19 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['doctor_id','user_id', 'patient_name', 'patient_email',
- 'scheduled_at', 'scheduled_at_timezone', 'reason', 'status', 'reminder_opt_in', 'reminder_sent_at'])]
+#[Fillable(['doctor_id', 'user_id', 'patient_name', 'patient_email',
+    'scheduled_at', 'scheduled_at_timezone', 'reason', 'status', 'reminder_opt_in', 'reminder_sent_at'])]
 class Appointment extends Model
 {
-
-
-
     protected $casts = [
         'reminder_opt_in' => 'boolean',
         'reminder_sent_at' => 'datetime',
@@ -57,6 +54,7 @@ class Appointment extends Model
             },
         );
     }
+
     /**
      * @return BelongsTo<Doctor, $this>
      */
@@ -64,6 +62,7 @@ class Appointment extends Model
     {
         return $this->belongsTo(Doctor::class);
     }
+
     /**
      * @return BelongsTo<User, $this>
      */

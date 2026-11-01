@@ -4,20 +4,20 @@ namespace App\Ai\Agents;
 
 use App\Ai\Tools\BookAppointment;
 use App\Ai\Tools\CancelAppointment;
+use App\Ai\Tools\ChickDoctorAvailability;
 use App\Ai\Tools\ListDoctors;
 use App\Ai\Tools\ListMyAppointments;
 use App\Ai\Tools\RescheduleAppointment;
 use App\Ai\Tools\SetAppointmentReminder;
-use App\Ai\Tools\ChickDoctorAvailability;
 use Carbon\Carbon;
 use Laravel\Ai\Attributes\Model;
 use Laravel\Ai\Attributes\Provider;
+use Laravel\Ai\Concerns\RemembersConversations;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasTools;
 use Laravel\Ai\Enums\Lab;
 use Laravel\Ai\Promptable;
-use Laravel\Ai\Concerns\RemembersConversations;
 use Stringable;
 
 // Configure the AI provider and model using Laravel AI SDK attributes.
@@ -135,13 +135,13 @@ INSTRUCTIONS;
     public function tools(): iterable
     {
         return [
-            new ListDoctors(),
-            new ListMyAppointments(),
-            new ChickDoctorAvailability(),
-            new BookAppointment(),
-            new CancelAppointment(),
-            new RescheduleAppointment(),
-            new SetAppointmentReminder(),
+            new ListDoctors,
+            new ListMyAppointments,
+            new ChickDoctorAvailability,
+            new BookAppointment,
+            new CancelAppointment,
+            new RescheduleAppointment,
+            new SetAppointmentReminder,
         ];
     }
 }

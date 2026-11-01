@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Appointments;
 
-use App\Console\Commands\SendAppointmentReminder;
 use App\Ai\Tools\SetAppointmentReminder;
 use App\Mail\AppointmentReminderMail;
 use App\Models\Appointment;
@@ -57,7 +56,7 @@ class AppointmentReminderTest extends TestCase
         $appointment->update(['reminder_opt_in' => false]);
 
         $this->actingAs($user);
-        $result = (new SetAppointmentReminder())->handle(new Request([
+        $result = (new SetAppointmentReminder)->handle(new Request([
             'appointment_id' => $appointment->id,
             'opt_in' => true,
         ]));

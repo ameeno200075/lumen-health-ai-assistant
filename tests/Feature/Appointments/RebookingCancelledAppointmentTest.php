@@ -30,7 +30,7 @@ class RebookingCancelledAppointmentTest extends TestCase
             'start_time' => '09:00',
             'end_time' => '17:00',
         ]);
-        $tool = new BookAppointment();
+        $tool = new BookAppointment;
         $arguments = [
             'doctor_id' => $doctor->id,
             'date' => $appointmentDate->toDateString(),

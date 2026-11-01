@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Appointment;
-use App\Models\DoctorAvailability;
 
 #[Fillable(['name', 'specialty', 'bio'])]
 class Doctor extends Model

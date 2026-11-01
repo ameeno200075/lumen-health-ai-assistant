@@ -6,23 +6,23 @@ The application helps patients interact with a clinic assistant to find doctors,
 
 ## Features
 
-* Authenticated patient dashboard and appointment history.
-* AI-assisted doctor search and availability checks.
-* Appointment booking, cancellation, and rescheduling.
-* Appointment reminder preferences and scheduled reminder emails.
-* Server-side appointment ownership and administrator authorization.
-* Doctor and weekly availability management for administrators.
-* UTC-based appointment storage with an explicit `Asia/Damascus` clinic timezone.
-* Conversation history scoped to the authenticated user.
-* Duplicate-send protection for appointment reminder emails.
+- Authenticated patient dashboard and appointment history.
+- AI-assisted doctor search and availability checks.
+- Appointment booking, cancellation, and rescheduling.
+- Appointment reminder preferences and scheduled reminder emails.
+- Server-side appointment ownership and administrator authorization.
+- Doctor and weekly availability management for administrators.
+- UTC-based appointment storage with an explicit `Asia/Damascus` clinic timezone.
+- Conversation history scoped to the authenticated user.
+- Duplicate-send protection for appointment reminder emails.
 
 ## Technology Stack
 
-* **Backend:** PHP 8.3+ and Laravel 13
-* **Frontend:** React 19, TypeScript, Inertia.js, and Tailwind CSS
-* **Database:** MySQL (production); SQLite supported for local tests
-* **Authentication:** Laravel Fortify
-* **AI Integration:** Laravel AI SDK with Google Gemini
+- **Backend:** PHP 8.3+ and Laravel 13
+- **Frontend:** React 19, TypeScript, Inertia.js, and Tailwind CSS
+- **Database:** MySQL (production); SQLite supported for local tests
+- **Authentication:** Laravel Fortify
+- **AI Integration:** Laravel AI SDK with Google Gemini
 
 ## Installation
 
@@ -30,10 +30,10 @@ The application helps patients interact with a clinic assistant to find doctors,
 
 Make sure you have the following installed:
 
-* PHP 8.3 or later
-* Composer
-* Node.js and npm
-* MySQL (or SQLite for local testing)
+- PHP 8.3 or later
+- Composer
+- Node.js and npm
+- MySQL (or SQLite for local testing)
 
 ### Setup
 
@@ -130,12 +130,12 @@ Gemini does not access the database directly. Instead, the assistant interacts w
 
 Available tools:
 
-* `list_doctors`
-* `check_doctor_availability`
-* `book_appointment`
-* `cancel_appointment`
-* `reschedule_appointment`
-* `set_appointment_reminder`
+- `list_doctors`
+- `check_doctor_availability`
+- `book_appointment`
+- `cancel_appointment`
+- `reschedule_appointment`
+- `set_appointment_reminder`
 
 Conversation ownership is checked before a conversation is continued or loaded.
 
@@ -159,13 +159,13 @@ npm run build
 
 Appointment tests cover:
 
-* Appointment booking.
-* Rebooking after cancellation.
-* Ownership-protected cancellation.
-* Appointment rescheduling.
-* Timezone conversion.
-* Reminder eligibility.
-* Database-specific concurrency limitations.
+- Appointment booking.
+- Rebooking after cancellation.
+- Ownership-protected cancellation.
+- Appointment rescheduling.
+- Timezone conversion.
+- Reminder eligibility.
+- Database-specific concurrency limitations.
 
 ## Screenshots
 

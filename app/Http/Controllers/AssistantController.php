@@ -81,7 +81,7 @@ class AssistantController extends Controller
         $user = $request->user();
 
         // Continue an existing conversation only if it belongs to this user.
-        if (!empty($validated['conversation_id'])) {
+        if (! empty($validated['conversation_id'])) {
             $ownsConversation = DB::table('agent_conversations')
                 ->where('id', $validated['conversation_id'])
                 ->where('participant_type', $user::class)

@@ -28,10 +28,10 @@ class ChickDoctorAvailability implements Tool
     public function description(): Stringable|string
     {
         return 'Check real appointment availability for a doctor registered in the clinic database. '
-            . 'Call list_doctors first to obtain a valid doctor ID. '
-            . 'Use a date in YYYY-MM-DD format. Set days to 1 to check one day, '
-            . 'or use a larger value to scan subsequent days for alternative slots. '
-            . 'Only report slots returned by this tool as available.';
+            .'Call list_doctors first to obtain a valid doctor ID. '
+            .'Use a date in YYYY-MM-DD format. Set days to 1 to check one day, '
+            .'or use a larger value to scan subsequent days for alternative slots. '
+            .'Only report slots returned by this tool as available.';
     }
 
     /**
@@ -52,7 +52,7 @@ class ChickDoctorAvailability implements Tool
 
         if ($validator->fails()) {
             return 'Invalid availability request. Provide a valid doctor ID, '
-                . 'a date in YYYY-MM-DD format, and a day range between 1 and 14.';
+                .'a date in YYYY-MM-DD format, and a day range between 1 and 14.';
         }
 
         $doctorId = (int) $request['doctor_id'];
@@ -61,7 +61,7 @@ class ChickDoctorAvailability implements Tool
         // Only query doctors that actually exist in the database.
         $doctor = Doctor::query()->find($doctorId);
 
-        if (!$doctor) {
+        if (! $doctor) {
             return 'Doctor not found. Call list_doctors and use an ID from its results.';
         }
 
@@ -76,7 +76,7 @@ class ChickDoctorAvailability implements Tool
             return 'The requested date is invalid. Use YYYY-MM-DD format.';
         }
 
-        if (!$start) {
+        if (! $start) {
             return 'The requested date is invalid. Use YYYY-MM-DD format.';
         }
 
@@ -110,17 +110,17 @@ class ChickDoctorAvailability implements Tool
             }
 
             $lines[] = "{$date->format('l, F j, Y')}: "
-                . implode(', ', $freeSlots);
+                .implode(', ', $freeSlots);
         }
 
         if (empty($lines)) {
             return "{$doctor->name} has no available slots in the requested date range. "
-                . 'Try checking a later date.';
+                .'Try checking a later date.';
         }
 
         return $days > 1
             ? "Available appointment slots for {$doctor->name}:\n"
-                . implode("\n", $lines)
+                .implode("\n", $lines)
             : $lines[0];
     }
 
@@ -171,7 +171,7 @@ class ChickDoctorAvailability implements Tool
                 try {
                     $slotDateTime = Carbon::createFromFormat(
                         '!Y-m-d H:i',
-                        $date->toDateString() . ' ' . $time,
+                        $date->toDateString().' '.$time,
                         config('app.timezone')
                     );
                 } catch (Throwable $exception) {
@@ -205,7 +205,7 @@ class ChickDoctorAvailability implements Tool
             'days' => $schema->integer()
                 ->description(
                     'Number of consecutive days to scan, from 1 to 14. '
-                    . 'Use 1 for a single day or a larger number to find alternatives.'
+                    .'Use 1 for a single day or a larger number to find alternatives.'
                 ),
         ];
     }

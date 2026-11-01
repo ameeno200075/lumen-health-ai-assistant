@@ -27,7 +27,7 @@ class AppointmentAssistantToolsTest extends TestCase
         $appointment = $this->createAppointment($user, $doctor, Carbon::tomorrow(config('app.timezone'))->setTime(10, 0));
 
         $this->actingAs($user);
-        $result = (string) (new ListMyAppointments())->handle(new Request([]));
+        $result = (string) (new ListMyAppointments)->handle(new Request([]));
 
         $this->assertStringContainsString('Dr. Natural Language', $result);
         $this->assertStringContainsString($appointment->scheduled_at->format('Y-m-d'), $result);
@@ -49,7 +49,7 @@ class AppointmentAssistantToolsTest extends TestCase
         $other = $this->createAppointment($otherUser, $doctor, Carbon::tomorrow(config('app.timezone'))->setTime(13, 0));
 
         $this->actingAs($user);
-        $result = (string) (new ListMyAppointments())->handle(new Request([]));
+        $result = (string) (new ListMyAppointments)->handle(new Request([]));
 
         $this->assertStringContainsString((string) $first->id, $result);
         $this->assertStringContainsString((string) $second->id, $result);
@@ -68,7 +68,7 @@ class AppointmentAssistantToolsTest extends TestCase
         $appointment = $this->createAppointment($user, $doctor, Carbon::tomorrow(config('app.timezone'))->setTime(10, 0));
 
         $this->actingAs($user);
-        $declined = (new CancelAppointment())->handle(new Request([
+        $declined = (new CancelAppointment)->handle(new Request([
             'appointment_id' => $appointment->id,
             'confirmed' => false,
         ]));
@@ -76,7 +76,7 @@ class AppointmentAssistantToolsTest extends TestCase
         $this->assertSame('booked', $appointment->fresh()->status);
 
         $this->actingAs($otherUser);
-        $notOwned = (new CancelAppointment())->handle(new Request([
+        $notOwned = (new CancelAppointment)->handle(new Request([
             'appointment_id' => $appointment->id,
             'confirmed' => true,
         ]));

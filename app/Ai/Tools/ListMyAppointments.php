@@ -18,7 +18,7 @@ class ListMyAppointments implements Tool
     public function description(): Stringable|string
     {
         return 'List the authenticated patient’s future booked and confirmed appointments. '
-            . 'Use this to identify an appointment by doctor, date, and time before cancellation or rescheduling.';
+            .'Use this to identify an appointment by doctor, date, and time before cancellation or rescheduling.';
     }
 
     public function handle(Request $request): Stringable|string
@@ -42,8 +42,8 @@ class ListMyAppointments implements Tool
             return 'You have no upcoming booked or confirmed appointments.';
         }
 
-        return "Your upcoming appointments (clinic timezone: " . config('app.timezone') . "):\n"
-            . $appointments->map(function (Appointment $appointment): string {
+        return 'Your upcoming appointments (clinic timezone: '.config('app.timezone')."):\n"
+            .$appointments->map(function (Appointment $appointment): string {
                 $scheduledAt = $appointment->scheduled_at;
 
                 return sprintf(
@@ -56,7 +56,7 @@ class ListMyAppointments implements Tool
                     $appointment->status
                 );
             })
-            ->implode("\n");
+                ->implode("\n");
     }
 
     public function schema(JsonSchema $schema): array

@@ -1,5 +1,10 @@
 import { Link, usePage } from '@inertiajs/react';
-import { CalendarCheck, LayoutDashboard, MessageCircle, Stethoscope, UserCog } from 'lucide-react';
+import {
+    CalendarCheck,
+    LayoutDashboard,
+    MessageCircle,
+    UserCog,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -16,13 +21,10 @@ import {
 import { dashboard } from '@/routes';
 import type { Auth, NavItem } from '@/types';
 
-
-
 const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
     const { auth } = usePage<{ auth: Auth }>().props;
-
 
     const mainNavItems: NavItem[] = [
         {
@@ -40,20 +42,21 @@ export function AppSidebar() {
             href: dashboard(),
             icon: LayoutDashboard,
         },
-        ...(auth.user?.is_admin ? [
-            {
-                title: 'Admin overview',
-                href: '/admin',
-                icon: LayoutDashboard,
-            },
-            {
-                title: 'Doctors',
-                href: '/admin/doctors',
-                icon: UserCog,
-            },
-        ] : []),
+        ...(auth.user?.is_admin
+            ? [
+                  {
+                      title: 'Admin overview',
+                      href: '/admin',
+                      icon: LayoutDashboard,
+                  },
+                  {
+                      title: 'Doctors',
+                      href: '/admin/doctors',
+                      icon: UserCog,
+                  },
+              ]
+            : []),
     ];
-
 
     return (
         <Sidebar collapsible="icon" variant="inset">

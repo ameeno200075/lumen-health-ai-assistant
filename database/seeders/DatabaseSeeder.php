@@ -3,11 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Doctor;
-use Database\Seeders\DoctorSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use PhpParser\Comment\Doc;
 
 class DatabaseSeeder extends Seeder
 {

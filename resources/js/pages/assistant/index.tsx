@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -56,9 +55,7 @@ function formatConversationDate(dateString: string): string {
     }).format(date);
 }
 
-export default function AssistantPage({
-    conversations,
-}: AssistantPageProps) {
+export default function AssistantPage({ conversations }: AssistantPageProps) {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
@@ -214,8 +211,7 @@ export default function AssistantPage({
             // Exclude empty messages left by previous failed requests.
             const validMessages = data.messages.filter(
                 (message) =>
-                    (message.role === 'user' ||
-                        message.role === 'assistant') &&
+                    (message.role === 'user' || message.role === 'assistant') &&
                     typeof message.content === 'string' &&
                     message.content.trim().length > 0,
             );
@@ -249,9 +245,7 @@ export default function AssistantPage({
                 </div>
 
                 <div>
-                    <h1 className="font-semibold">
-                        Lumen Health assistant
-                    </h1>
+                    <h1 className="font-semibold">Lumen Health assistant</h1>
 
                     <p className="text-xs text-muted-foreground">
                         Your intelligent clinic receptionist
@@ -381,15 +375,41 @@ export default function AssistantPage({
                             </p>
 
                             <div className="mt-7 grid w-full max-w-xl gap-3 text-left sm:grid-cols-2">
-                                <Suggestion icon={Search} label="Find a doctor" onClick={() => void send('Help me find a doctor')} />
-                                <Suggestion icon={CalendarPlus} label="Book an appointment" onClick={() => void send('I would like to book an appointment')} />
-                                <Suggestion icon={CalendarCheck} label="Check my appointments" onClick={() => void send('Show me my appointments')} />
-                                <Suggestion icon={Stethoscope} label="Clinic information" onClick={() => void send('Tell me about the clinic')} />
+                                <Suggestion
+                                    icon={Search}
+                                    label="Find a doctor"
+                                    onClick={() =>
+                                        void send('Help me find a doctor')
+                                    }
+                                />
+                                <Suggestion
+                                    icon={CalendarPlus}
+                                    label="Book an appointment"
+                                    onClick={() =>
+                                        void send(
+                                            'I would like to book an appointment',
+                                        )
+                                    }
+                                />
+                                <Suggestion
+                                    icon={CalendarCheck}
+                                    label="Check my appointments"
+                                    onClick={() =>
+                                        void send('Show me my appointments')
+                                    }
+                                />
+                                <Suggestion
+                                    icon={Stethoscope}
+                                    label="Clinic information"
+                                    onClick={() =>
+                                        void send('Tell me about the clinic')
+                                    }
+                                />
                             </div>
 
                             <p className="mt-7 max-w-md text-xs leading-5 text-muted-foreground">
-                                If you have severe or sudden chest discomfort
-                                or other potentially urgent symptoms, seek
+                                If you have severe or sudden chest discomfort or
+                                other potentially urgent symptoms, seek
                                 emergency medical care rather than waiting for
                                 an appointment.
                             </p>
@@ -414,7 +434,7 @@ export default function AssistantPage({
                                 )}
 
                                 <div
-                                    className={`max-w-[85%] whitespace-pre-wrap break-words rounded-2xl px-4 py-3 text-sm leading-7 sm:max-w-[75%] ${
+                                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-7 break-words whitespace-pre-wrap sm:max-w-[75%] ${
                                         isUser
                                             ? 'rounded-br-md bg-primary text-primary-foreground'
                                             : 'rounded-bl-md border bg-card text-card-foreground shadow-sm'
@@ -473,9 +493,7 @@ export default function AssistantPage({
                     >
                         <textarea
                             value={input}
-                            onChange={(event) =>
-                                setInput(event.target.value)
-                            }
+                            onChange={(event) => setInput(event.target.value)}
                             onKeyDown={(event) => {
                                 if (
                                     event.key === 'Enter' &&
@@ -520,6 +538,25 @@ export default function AssistantPage({
     );
 }
 
-function Suggestion({ icon: Icon, label, onClick }: { icon: typeof Search; label: string; onClick: () => void }) {
-    return <button type="button" onClick={onClick} className="group flex items-center gap-3 rounded-xl border border-border/70 bg-card p-3 text-sm transition hover:border-teal-300 hover:bg-teal-50/50"><span className="flex size-8 items-center justify-center rounded-lg bg-muted text-muted-foreground group-hover:bg-teal-100 group-hover:text-teal-700"><Icon className="size-4" /></span><span className="font-medium">{label}</span></button>;
+function Suggestion({
+    icon: Icon,
+    label,
+    onClick,
+}: {
+    icon: typeof Search;
+    label: string;
+    onClick: () => void;
+}) {
+    return (
+        <button
+            type="button"
+            onClick={onClick}
+            className="group flex items-center gap-3 rounded-xl border border-border/70 bg-card p-3 text-sm transition hover:border-teal-300 hover:bg-teal-50/50"
+        >
+            <span className="flex size-8 items-center justify-center rounded-lg bg-muted text-muted-foreground group-hover:bg-teal-100 group-hover:text-teal-700">
+                <Icon className="size-4" />
+            </span>
+            <span className="font-medium">{label}</span>
+        </button>
+    );
 }

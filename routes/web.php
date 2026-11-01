@@ -1,10 +1,10 @@
 
 <?php
 
-use App\Http\Controllers\AssistantController;
-use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AssistantController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
@@ -41,4 +41,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 });
 
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';

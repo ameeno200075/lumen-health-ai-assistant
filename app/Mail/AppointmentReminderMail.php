@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\Appointment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -48,7 +49,7 @@ class AppointmentReminderMail extends Mailable
      * Define any email attachments.
      */
     /**
-     * @return list<\Illuminate\Mail\Mailables\Attachment>
+     * @return list<Attachment>
      */
     public function attachments(): array
     {

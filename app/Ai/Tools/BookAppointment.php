@@ -30,9 +30,9 @@ class BookAppointment implements Tool
     public function description(): Stringable|string
     {
         return 'Book an appointment with a doctor registered in the clinic database. '
-            . 'Only call this tool after the patient has explicitly confirmed the doctor, '
-            . 'date, time, full name, and email address. '
-            . 'The tool validates the doctor, schedule, and current availability before saving.';
+            .'Only call this tool after the patient has explicitly confirmed the doctor, '
+            .'date, time, full name, and email address. '
+            .'The tool validates the doctor, schedule, and current availability before saving.';
     }
 
     /**
@@ -65,7 +65,7 @@ class BookAppointment implements Tool
 
         if ($validator->fails()) {
             return 'The booking details are invalid. Please verify the date, time, '
-                . 'patient name, and email address.';
+                .'patient name, and email address.';
         }
 
         $timezone = config('app.timezone');
@@ -74,21 +74,21 @@ class BookAppointment implements Tool
             // Parse the exact requested appointment date and time.
             $scheduledAt = Carbon::createFromFormat(
                 '!Y-m-d H:i',
-                $request['date'] . ' ' . $request['time'],
+                $request['date'].' '.$request['time'],
                 $timezone
             );
         } catch (Throwable $exception) {
             return 'The requested appointment date or time is invalid.';
         }
 
-        if (!$scheduledAt) {
+        if (! $scheduledAt) {
             return 'The requested appointment date or time is invalid.';
         }
 
         // Reject appointments that have already passed.
         if ($scheduledAt->lte(Carbon::now($timezone))) {
             return 'That appointment time is no longer in the future. '
-                . 'Please choose a future time.';
+                .'Please choose a future time.';
         }
 
         try {
@@ -100,14 +100,14 @@ class BookAppointment implements Tool
                     ->lockForUpdate()
                     ->first();
 
-                if (!$doctor) {
+                if (! $doctor) {
                     return null;
                 }
 
                 // Verify that the requested time belongs to the doctor's schedule.
                 $slots = $doctor->slotsFor($scheduledAt);
 
-                if (!in_array($scheduledAt->format('H:i'), $slots, true)) {
+                if (! in_array($scheduledAt->format('H:i'), $slots, true)) {
                     return 'INVALID_SLOT';
                 }
 
@@ -136,31 +136,31 @@ class BookAppointment implements Tool
 
             if ($appointment === null) {
                 return 'The selected doctor does not exist. '
-                    . 'Use list_doctors to retrieve a valid doctor ID.';
+                    .'Use list_doctors to retrieve a valid doctor ID.';
             }
 
             if ($appointment === 'INVALID_SLOT') {
                 return 'The requested time is not part of this doctor’s schedule. '
-                    . 'Use check_doctor_availability to find valid appointment times.';
+                    .'Use check_doctor_availability to find valid appointment times.';
             }
 
             if ($appointment === 'ALREADY_BOOKED') {
                 return 'This appointment slot has already been booked. '
-                    . 'Use check_doctor_availability to find another available time.';
+                    .'Use check_doctor_availability to find another available time.';
             }
 
             // Return a success message only after the database confirms creation.
             return "Appointment #{$appointment->id} successfully booked for "
-                . "{$request['patient_name']} with doctor ID {$appointment->doctor_id} "
-                . "on {$scheduledAt->format('l, F j, Y')} at {$scheduledAt->format('H:i')}. "
-                . 'Ask the patient whether they would like an email reminder, '
-                . 'then use set_appointment_reminder with this appointment ID.';
+                ."{$request['patient_name']} with doctor ID {$appointment->doctor_id} "
+                ."on {$scheduledAt->format('l, F j, Y')} at {$scheduledAt->format('H:i')}. "
+                .'Ask the patient whether they would like an email reminder, '
+                .'then use set_appointment_reminder with this appointment ID.';
         } catch (QueryException $exception) {
             // Handle a possible duplicate booking rejected by a database constraint.
             report($exception);
 
             return 'The appointment could not be saved, possibly because the slot was '
-                . 'booked at the same time by another request. Check availability and try again.';
+                .'booked at the same time by another request. Check availability and try again.';
         }
     }
 

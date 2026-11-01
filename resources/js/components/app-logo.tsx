@@ -10,7 +10,9 @@ export default function AppLogo() {
                 <span className="mb-0.5 truncate leading-tight font-semibold">
                     Lumen Health
                 </span>
-                <span className="truncate text-[10px] text-sidebar-foreground/60">AI clinic assistant</span>
+                <span className="truncate text-[10px] text-sidebar-foreground/60">
+                    AI clinic assistant
+                </span>
             </div>
         </>
     );

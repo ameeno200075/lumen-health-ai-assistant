@@ -20,8 +20,8 @@ class SetAppointmentReminder implements Tool
     public function description(): Stringable|string
     {
         return 'Enable or disable an email reminder for a booked appointment. '
-            . 'Call this after booking, once the patient confirms whether they want '
-            . 'an email reminder approximately 24 hours before the appointment.';
+            .'Call this after booking, once the patient confirms whether they want '
+            .'an email reminder approximately 24 hours before the appointment.';
     }
 
     // Update the reminder preference for an appointment.
@@ -41,7 +41,7 @@ class SetAppointmentReminder implements Tool
             ->first();
 
         // Do not update anything if the appointment cannot be found.
-        if (!$appointment || !$appointment->scheduled_at?->isFuture()) {
+        if (! $appointment || ! $appointment->scheduled_at?->isFuture()) {
             return 'I could not find an appointment to update.';
         }
 
@@ -56,8 +56,8 @@ class SetAppointmentReminder implements Tool
         // Tell the AI what happened so it can respond to the patient.
         return $optIn
             ? "Email reminder enabled for appointment #{$appointment->id}. "
-                . "A reminder is requested for {$appointment->patient_email} "
-                . "approximately 24 hours before the appointment."
+                ."A reminder is requested for {$appointment->patient_email} "
+                .'approximately 24 hours before the appointment.'
             : "Email reminder disabled for appointment #{$appointment->id}.";
     }
 

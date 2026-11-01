@@ -34,7 +34,7 @@ class AppointmentTimezoneTest extends TestCase
         ]);
 
         $this->actingAs($patient);
-        (new BookAppointment())->handle(new Request([
+        (new BookAppointment)->handle(new Request([
             'doctor_id' => $doctor->id,
             'date' => $appointmentDate->toDateString(),
             'time' => '10:00',

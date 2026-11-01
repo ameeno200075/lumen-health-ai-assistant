@@ -24,9 +24,9 @@ class ListDoctors implements Tool
     public function description(): Stringable|string
     {
         return 'Retrieve real doctors registered in the clinic database. '
-            . 'Use this tool before recommending a doctor or checking appointment availability. '
-            . 'Only doctors returned by this tool may be recommended or booked. '
-            . 'Each result includes the doctor ID, name, specialty, and biography.';
+            .'Use this tool before recommending a doctor or checking appointment availability. '
+            .'Only doctors returned by this tool may be recommended or booked. '
+            .'Each result includes the doctor ID, name, specialty, and biography.';
     }
 
     /**
@@ -44,7 +44,7 @@ class ListDoctors implements Tool
                 fn ($query) => $query->where(
                     'specialty',
                     'like',
-                    '%' . addcslashes($specialty, '\\%_') . '%'
+                    '%'.addcslashes($specialty, '\\%_').'%'
                 )
             )
             ->orderBy('name')
@@ -54,14 +54,14 @@ class ListDoctors implements Tool
         if ($doctors->isEmpty()) {
             return $specialty !== ''
                 ? "No doctors were found for the specialty: {$specialty}. "
-                    . 'Do not invent a doctor or assume that this specialty is available.'
+                    .'Do not invent a doctor or assume that this specialty is available.'
                 : 'No doctors are currently registered in the clinic database. '
-                    . 'Do not invent doctor names or specialties.';
+                    .'Do not invent doctor names or specialties.';
         }
 
         // Return only information retrieved from the database.
         return "Doctors registered in the clinic database:\n"
-            . $doctors->map(
+            .$doctors->map(
                 fn ($doctor) => sprintf(
                     'ID: %d | Name: %s | Specialty: %s | Bio: %s',
                     $doctor->id,
@@ -81,7 +81,7 @@ class ListDoctors implements Tool
             'specialty' => $schema->string()
                 ->description(
                     'Optional specialty filter, such as Cardiology or Dermatology. '
-                    . 'Omit this parameter to retrieve all registered doctors.'
+                    .'Omit this parameter to retrieve all registered doctors.'
                 ),
         ];
     }
